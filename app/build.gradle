@@ -1,0 +1,82 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
+android {
+    compileSdkVersion 24
+    buildToolsVersion "24.0.3"
+
+    defaultConfig {
+        applicationId "com.yairkukielka.ticker"
+        minSdkVersion 21
+        targetSdkVersion 24
+        versionCode 1
+        versionName "1.0"
+
+//        jackOptions {
+//            enabled true
+//        }
+    }
+
+//    compileOptions {
+//        sourceCompatibility JavaVersion.VERSION_1_8
+//        targetCompatibility JavaVersion.VERSION_1_8
+//    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+//    sourceSets {
+//        main.java.srcDirs += 'src/main/kotlin'
+//        test.java.srcDirs += 'src/test/kotlin'
+//        androidTest.java.srcDirs += 'src/androidTest/kotlin'
+//    }
+}
+kapt {
+    generateStubs = true
+}
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.android.support:appcompat-v7:24.2.1'
+    compile 'com.android.support:design:24.2.1'
+    compile 'com.android.support:recyclerview-v7:24.2.1'
+    compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha9'
+
+    compile 'com.github.bumptech.glide:glide:3.7.0'
+    compile 'com.github.bumptech.glide:okhttp3-integration:1.4.0@aar'
+    compile 'com.squareup.okhttp3:okhttp:3.4.1'
+    compile 'com.squareup.okhttp3:logging-interceptor:3.4.1'
+
+    compile group: 'io.reactivex.rxjava2', name: 'rxjava', version: '2.0.0-RC1'
+    compile group: 'io.reactivex.rxjava2', name: 'rxandroid', version: '2.0.0-RC1'
+
+    compile 'com.robinhood.ticker:ticker:1.1.0'
+
+    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+
+    // Retrofit
+    compile group: 'com.squareup.retrofit2', name: 'retrofit', version: '2.1.0'
+    compile group: 'com.squareup.retrofit2', name: 'converter-moshi', version: '2.1.0'
+    compile group: 'com.jakewharton.retrofit', name: 'retrofit2-rxjava2-adapter', version: '1.0.0-RC1'
+
+
+    // Dagger 2
+    compile 'com.google.dagger:dagger:2.7'
+    kapt 'com.google.dagger:dagger-compiler:2.7'
+    provided 'javax.annotation:jsr250-api:1.0'
+
+    // charts
+//    compile 'com.github.PhilJay:MPAndroidChart-Realm:v1.1.0@aar'
+//    compile 'com.github.PhilJay:MPAndroidChart:v3.0.0-beta1'
+
+    // Tests
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.mockito:mockito-core:2.1.0-beta.120'
+    testCompile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
+//    testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
+
+}
