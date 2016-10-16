@@ -24,7 +24,7 @@ import java.util.concurrent.TimeUnit
 /**
  * Created by superyair on 9/6/16.
  */
-class ObservableTest() {
+class TickerDataModelResponsesTest() {
 
     //    val mapper: (TickerDataModelResponses) -> Observable<TickerModelResponse> = {
 //        Observable.fromArray(
@@ -35,7 +35,7 @@ class ObservableTest() {
 
     private fun mapToTickerModelResponse(item: TickerDataModelResponses): TickerModelResponses {
         // this gets the name and value of TickerDataModelResponses.BTC_ETH and creates a TickerModelResponse("BTC_ETH", BTC_ETH)
-        val list = TickerDataModelResponses::class.members
+        val list = TickerDataModelResponses::class.members // the members are getETC_BTC() and so on
                 .filter { it.name.contains('_') }
                 .map { TickerModelResponse(it.name, it.call(item) as TickerDataModelResponse) }
         return TickerModelResponses(list)
@@ -86,6 +86,7 @@ class ObservableTest() {
     fun getTickerList(): TickerDataModelResponses {
         val item1 = TickerDataModelResponse(0, "0.019", "0.019", "0.019", "0.019", "0.019", "0.019", "0.019", "0.019");
         val item2 = TickerDataModelResponse(1, "1.0", "1.0", "1.0", "1.0", "1.0", "1.0", "1.0", "1.0");
+        val item3 = TickerDataModelResponse(1, "1.0", "1.0", "1.0", "1.0", "1.0", "1.0", "1.0", "1.0");
         val list = TickerDataModelResponses(item1, item2)
         return list
     }

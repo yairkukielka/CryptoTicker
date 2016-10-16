@@ -1,5 +1,7 @@
 package com.yairkukielka.ticker.api
 
+import com.yairkukielka.ticker.data.CurrenciesDataModelResponses
+import com.yairkukielka.ticker.data.CurrenciesMap
 import com.yairkukielka.ticker.data.TickerDataModelResponses
 import io.reactivex.Observable
 
@@ -16,8 +18,8 @@ class Api(private val tickerService: TickerService) {
     fun ticker(): Observable<TickerDataModelResponses> {
         return tickerService.getTicker(RETURN_TICKER_QUERY)
     }
-    fun currencies(): Observable<TickerDataModelResponses> {
-        return tickerService.getTicker(RETURN_CURRENCIES_QUERY)
+    fun currencies(): Observable<CurrenciesMap> {
+        return tickerService.getCurrencies()//RETURN_CURRENCIES_QUERY
     }
     fun volume24h(): Observable<TickerDataModelResponses> {
         return tickerService.getTicker(RETURN_24H_VOLUME_QUERY)

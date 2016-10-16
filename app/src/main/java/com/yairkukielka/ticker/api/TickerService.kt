@@ -1,5 +1,7 @@
 package com.yairkukielka.ticker.api
 
+import com.yairkukielka.ticker.data.CurrenciesDataModelResponses
+import com.yairkukielka.ticker.data.CurrenciesMap
 import com.yairkukielka.ticker.data.TickerDataModelResponses
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -12,8 +14,8 @@ interface TickerService {
     @GET("/public") fun getTicker(@Query("command") command: String): Observable<TickerDataModelResponses>
 
     // ?command=return24hVolume
-    @GET("/") fun get24hVolume(@Query("command") command: String): Observable<TickerDataModelResponses>
+    @GET("/public") fun get24hVolume(@Query("command") command: String): Observable<TickerDataModelResponses>
 
     //?command=returnCurrencies
-    @GET("/") fun getCurrencies(@Path("command") command: String): Observable<TickerDataModelResponses>
+    @GET("/public?command=returnCurrencies") fun getCurrencies(): Observable<CurrenciesMap>//@Path("command") command: String
 }

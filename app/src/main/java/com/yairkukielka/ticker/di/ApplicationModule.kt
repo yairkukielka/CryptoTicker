@@ -3,9 +3,12 @@ package com.yairkukielka.ticker.di
 import android.app.Application
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import com.squareup.moshi.Moshi
+import com.yairkukielka.ticker.adapter.CurrencyJsonAdapter
+import com.yairkukielka.ticker.adapter.CurrencyMapJsonAdapter
 import com.yairkukielka.ticker.api.Api
 import com.yairkukielka.ticker.api.TickerService
 import com.yairkukielka.ticker.domain.HomePresenter
+import com.yairkukielka.ticker.domain.Prices
 import com.yairkukielka.ticker.executor.Executor
 import com.yairkukielka.ticker.executor.MainThread
 import com.yairkukielka.ticker.executor.MainThreadImpl
@@ -64,7 +67,10 @@ class ApplicationModule(private val application: Application) {
     @Provides
     @Singleton
     internal fun provideMoshi(): Moshi {
-        return Moshi.Builder().build()
+        return Moshi.Builder()
+                .add(CurrencyJsonAdapter())
+                .add(CurrencyMapJsonAdapter())
+                .build()
     }
 
     @Provides
@@ -92,5 +98,10 @@ class ApplicationModule(private val application: Application) {
         return HomePresenter(api)
     }
 
+    @Provides
+    @Singleton
+    internal fun providePrices(api: Api): Prices {
+        return Prices(api)
+    }
 }
 

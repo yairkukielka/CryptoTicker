@@ -1,7 +1,5 @@
 package com.yairkukielka.ticker.data
 
-import kotlin.reflect.KProperty
-
 
 class TickerModelResponse(val name: String, val data: TickerDataModelResponse) {
     val id: Int
