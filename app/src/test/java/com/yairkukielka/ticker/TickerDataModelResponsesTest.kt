@@ -31,16 +31,7 @@ class TickerDataModelResponsesTest() {
 //                TickerModelResponse("BTC_ETH", it.BTC_ETH),
 //                TickerModelResponse("BTC_LTC", it.BTC_LTC))
 //    }
-    val mapperTickerModelResponses: (TickerDataModelResponses) -> TickerModelResponses = { mapToTickerModelResponse(it) }
 
-    private fun mapToTickerModelResponse(item: TickerDataModelResponses): TickerModelResponses {
-        // this gets the name and value of TickerDataModelResponses.BTC_ETH and creates a TickerModelResponse("BTC_ETH", BTC_ETH)
-        val list = TickerDataModelResponses::class.members // the members are getETC_BTC() and so on
-                .filter { it.name.contains('_') }
-                .map { TickerModelResponse(it.name, it.call(item) as TickerDataModelResponse) }
-        return TickerModelResponses(list)
-
-    }
 //    val id: Int, val name: String, val lowestAsk: String, val highestBid: String,
 //    val percentChange: String, val baseVolume: String, val quoteVolume: String,
 //    val high24hr: String, val low24hr: String
@@ -59,37 +50,49 @@ class TickerDataModelResponsesTest() {
 //    }
 
 
-    @Test
-    fun test1() {
-        val testObserver = TestObserver<TickerModelResponses>()
-        val a = Observable.fromCallable { getTickerList() }
-//                .subscribeOn(testScheduler)
-//                .observeOn(testScheduler)
-                .map { mapperTickerModelResponses(it) }
-                .doOnNext {
-                    print(it.toString())
-//                    testSubscriber.onNext(it)
-                }
-                .doOnError {
-                    print(it.message)
-                }
-                .doOnComplete {
-                    print("Completed")
-                }
-                .subscribe(testObserver)
-
-        val values = testObserver.values()
-        testObserver.assertNoErrors()
-    }
 
 
-    fun getTickerList(): TickerDataModelResponses {
-        val item1 = TickerDataModelResponse(0, "0.019", "0.019", "0.019", "0.019", "0.019", "0.019", "0.019", "0.019");
-        val item2 = TickerDataModelResponse(1, "1.0", "1.0", "1.0", "1.0", "1.0", "1.0", "1.0", "1.0");
-        val item3 = TickerDataModelResponse(1, "1.0", "1.0", "1.0", "1.0", "1.0", "1.0", "1.0", "1.0");
-        val list = TickerDataModelResponses(item1, item2)
-        return list
-    }
+
+
+//    val mapperTickerModelResponses: (TickerDataModelResponses) -> TickerModelResponses = { mapToTickerModelResponse(it) }
+//
+//    private fun mapToTickerModelResponse(item: TickerDataModelResponses): TickerModelResponses {
+//        // this gets the name and value of TickerDataModelResponses.BTC_ETH and creates a TickerModelResponse("BTC_ETH", BTC_ETH)
+//        val list = TickerDataModelResponses::class.members // the members are getETC_BTC() and so on
+//                .filter { it.name.contains('_') }
+//                .map { TickerModelResponse(it.name, it.name, it.call(item) as TickerDataModelResponse) }
+//        return TickerModelResponses(list)
+//
+//    }
+//
+//    @Test
+//    fun test1() {
+//        val testObserver = TestObserver<TickerModelResponses>()
+//        val a = Observable.fromCallable { getTickerList() }
+//                .map { mapperTickerModelResponses(it) }
+//                .doOnNext {
+//                    print(it.toString())
+//                }
+//                .doOnError {
+//                    print(it.message)
+//                }
+//                .doOnComplete {
+//                    print("Completed")
+//                }
+//                .subscribe(testObserver)
+//
+//        val values = testObserver.values()
+//        testObserver.assertNoErrors()
+//    }
+//
+//
+//    fun getTickerList(): TickerDataModelResponses {
+//        val item1 = TickerDataModelResponse(0, "0.019", "0.019", "0.019", "0.019", "0.019", "0.019", "0.019", "0.019");
+//        val item2 = TickerDataModelResponse(1, "1.0", "1.0", "1.0", "1.0", "1.0", "1.0", "1.0", "1.0");
+//        val item3 = TickerDataModelResponse(1, "1.0", "1.0", "1.0", "1.0", "1.0", "1.0", "1.0", "1.0");
+//        val list = TickerDataModelResponses(item1, item2)
+//        return list
+//    }
 
 
 }

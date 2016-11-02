@@ -3,7 +3,7 @@ package com.yairkukielka.ticker.di
 import android.app.Application
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import com.squareup.moshi.Moshi
-import com.yairkukielka.ticker.adapter.CurrencyJsonAdapter
+import com.yairkukielka.ticker.adapter.TickerDataModelResponsesAdapter
 import com.yairkukielka.ticker.adapter.CurrencyMapJsonAdapter
 import com.yairkukielka.ticker.api.Api
 import com.yairkukielka.ticker.api.TickerService
@@ -68,7 +68,7 @@ class ApplicationModule(private val application: Application) {
     @Singleton
     internal fun provideMoshi(): Moshi {
         return Moshi.Builder()
-                .add(CurrencyJsonAdapter())
+                .add(TickerDataModelResponsesAdapter())
                 .add(CurrencyMapJsonAdapter())
                 .build()
     }

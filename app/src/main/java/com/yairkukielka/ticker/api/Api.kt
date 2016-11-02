@@ -1,5 +1,6 @@
 package com.yairkukielka.ticker.api
 
+import com.jakewharton.retrofit2.adapter.rxjava2.Result
 import com.yairkukielka.ticker.data.CurrenciesDataModelResponses
 import com.yairkukielka.ticker.data.CurrenciesMap
 import com.yairkukielka.ticker.data.TickerDataModelResponses
@@ -19,7 +20,7 @@ class Api(private val tickerService: TickerService) {
         return tickerService.getTicker(RETURN_TICKER_QUERY)
     }
     fun currencies(): Observable<CurrenciesMap> {
-        return tickerService.getCurrencies()//RETURN_CURRENCIES_QUERY
+        return tickerService.getCurrencies(RETURN_CURRENCIES_QUERY)
     }
     fun volume24h(): Observable<TickerDataModelResponses> {
         return tickerService.getTicker(RETURN_24H_VOLUME_QUERY)

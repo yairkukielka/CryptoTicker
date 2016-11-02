@@ -50,7 +50,7 @@ dependencies {
     compile 'com.squareup.okhttp3:okhttp:3.4.1'
     compile 'com.squareup.okhttp3:logging-interceptor:3.4.1'
 
-    compile group: 'io.reactivex.rxjava2', name: 'rxjava', version: '2.0.0-RC1'
+    compile group: 'io.reactivex.rxjava2', name: 'rxjava', version: '2.0.0-RC3'
     compile group: 'io.reactivex.rxjava2', name: 'rxandroid', version: '2.0.0-RC1'
 
     compile 'com.robinhood.ticker:ticker:1.1.0'
@@ -60,7 +60,7 @@ dependencies {
     // Retrofit
     compile group: 'com.squareup.retrofit2', name: 'retrofit', version: '2.1.0'
     compile group: 'com.squareup.retrofit2', name: 'converter-moshi', version: '2.1.0'
-    compile group: 'com.jakewharton.retrofit', name: 'retrofit2-rxjava2-adapter', version: '1.0.0-RC1'
+    compile group: 'com.jakewharton.retrofit', name: 'retrofit2-rxjava2-adapter', version: '1.0.0-RC3'
 
 
     // Dagger 2
@@ -77,7 +77,7 @@ dependencies {
     testCompile 'org.mockito:mockito-core:2.1.0-beta.120'
     testCompile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
-//    testCompile 'org.json:json:20140107'
+    testCompile 'org.json:json:20140107'
 //    testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
 
 }
