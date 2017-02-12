@@ -7,7 +7,7 @@ import com.yairkukielka.ticker.data.TickerDataModelResponses
 import com.yairkukielka.ticker.data.TickerModelResponse
 
 /**
- * Created by superyair on 10/14/16.
+ * Created by Yair Kukielka on 10/14/16.
  */
 class Prices(val api: Api) {
 

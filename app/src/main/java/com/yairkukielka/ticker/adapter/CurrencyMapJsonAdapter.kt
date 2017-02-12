@@ -9,7 +9,7 @@ import com.yairkukielka.ticker.domain.CurrencyInfo
 import java.util.*
 
 /**
- * Created by superyair on 10/15/16.
+ * Created by Yair Kukielka on 10/15/16.
  */
 class CurrencyMapJsonAdapter {
 

@@ -22,7 +22,7 @@ import java.util.*
 import java.util.concurrent.TimeUnit
 
 /**
- * Created by superyair on 9/6/16.
+ * Created by Yair Kukielka on 9/6/16.
  */
 class TickerDataModelResponsesTest() {
 

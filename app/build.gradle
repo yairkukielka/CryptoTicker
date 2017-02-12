@@ -3,13 +3,13 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
 android {
-    compileSdkVersion 24
-    buildToolsVersion "24.0.3"
+    compileSdkVersion 25
+    buildToolsVersion "25.0.2"
 
     defaultConfig {
         applicationId "com.yairkukielka.ticker"
         minSdkVersion 21
-        targetSdkVersion 24
+        targetSdkVersion 25
         versionCode 1
         versionName "1.0"
 
@@ -40,32 +40,36 @@ kapt {
 }
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:24.2.1'
-    compile 'com.android.support:design:24.2.1'
-    compile 'com.android.support:recyclerview-v7:24.2.1'
-    compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha9'
+    compile 'com.jakewharton:butterknife:8.5.1'
+    kapt 'com.jakewharton:butterknife-compiler:8.5.1'
+
+    compile 'com.android.support:appcompat-v7:25.1.1'
+    compile 'com.android.support:design:25.1.1'
+    compile 'com.android.support:recyclerview-v7:25.1.1'
+
+//    compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha9'
 
     compile 'com.github.bumptech.glide:glide:3.7.0'
     compile 'com.github.bumptech.glide:okhttp3-integration:1.4.0@aar'
-    compile 'com.squareup.okhttp3:okhttp:3.4.1'
+    compile 'com.squareup.okhttp3:okhttp:3.6.0'
     compile 'com.squareup.okhttp3:logging-interceptor:3.4.1'
 
-    compile group: 'io.reactivex.rxjava2', name: 'rxjava', version: '2.0.0-RC3'
-    compile group: 'io.reactivex.rxjava2', name: 'rxandroid', version: '2.0.0-RC1'
-
-    compile 'com.robinhood.ticker:ticker:1.1.0'
+    compile group: 'io.reactivex.rxjava2', name: 'rxjava', version: '2.0.5'
+    compile group: 'io.reactivex.rxjava2', name: 'rxandroid', version: '2.0.1'
+    compile 'com.jakewharton.rxrelay2:rxrelay:2.0.0'
+    compile 'com.robinhood.ticker:ticker:1.1.1'
 
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 
     // Retrofit
     compile group: 'com.squareup.retrofit2', name: 'retrofit', version: '2.1.0'
     compile group: 'com.squareup.retrofit2', name: 'converter-moshi', version: '2.1.0'
-    compile group: 'com.jakewharton.retrofit', name: 'retrofit2-rxjava2-adapter', version: '1.0.0-RC3'
+    compile group: 'com.jakewharton.retrofit', name: 'retrofit2-rxjava2-adapter', version: '1.0.0'
 
 
     // Dagger 2
-    compile 'com.google.dagger:dagger:2.7'
-    kapt 'com.google.dagger:dagger-compiler:2.7'
+    compile 'com.google.dagger:dagger:2.9'
+    kapt 'com.google.dagger:dagger-compiler:2.9'
     provided 'javax.annotation:jsr250-api:1.0'
 
     // charts
@@ -74,10 +78,13 @@ dependencies {
 
     // Tests
     testCompile 'junit:junit:4.12'
-    testCompile 'org.mockito:mockito-core:2.1.0-beta.120'
+    testCompile 'org.mockito:mockito-core:2.5.5'
     testCompile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
     testCompile 'org.json:json:20140107'
+
+//    testCompile "com.nhaarman:mockito-kotlin:1.1.0"
+//    testCompile 'org.amshove.kluent:kluent:1.14'
 //    testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
 
 }

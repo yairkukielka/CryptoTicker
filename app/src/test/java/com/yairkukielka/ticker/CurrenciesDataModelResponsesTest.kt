@@ -4,6 +4,7 @@ import com.squareup.moshi.Moshi
 import com.yairkukielka.ticker.adapter.CurrencyMapJsonAdapter
 import com.yairkukielka.ticker.data.*
 import com.yairkukielka.ticker.domain.CurrencyInfo
+import com.yairkukielka.ticker.domain.HomePresenter
 import io.reactivex.Observable
 import io.reactivex.functions.BiFunction
 import io.reactivex.observers.TestObserver
@@ -11,9 +12,10 @@ import io.reactivex.subjects.BehaviorSubject
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.junit.Test
+import java.util.concurrent.TimeUnit
 
 /**
- * Created by superyair on 9/6/16.
+ * Created by Yair Kukielka on 9/6/16.
  */
 class CurrenciesDataModelResponsesTest() {
 
@@ -22,14 +24,11 @@ class CurrenciesDataModelResponsesTest() {
 //    private fun mapToModelResponse(item: CurrenciesDataModelResponses): TickerModelResponses {
 //        // this gets the name and value of TickerDataModelResponses.BTC_ETH and creates a TickerModelResponse("BTC_ETH", BTC_ETH)
 //        val list = CurrenciesDataModelResponses::class.members // the members are getETC_BTC() and so on
-//                .filter { it.call(item) != null }
-//                .map { TickerModelResponse(it.name, it.name, it.call(item) as TickerDataModelResponse) }
+//                .filter { it.call(currency_item) != null }
+//                .map { TickerModelResponse(it.name, it.name, it.call(currency_item) as TickerDataModelResponse) }
 //        return TickerModelResponses(list)
 //
 //    }
-
-
-
 
 
 //    val mapper3 = fun(it: TickerDataModelResponses) = Observable.fromArray(TickerModelResponse("BTC_ETH", it.BTC_ETH.last))
@@ -48,37 +47,22 @@ class CurrenciesDataModelResponsesTest() {
 
 
 
-    val composer: BiFunction<TickerDataModelResponses, CurrenciesMap, TickerModelResponses> = BiFunction { x, y ->
-
-        var list: MutableList<TickerModelResponse> = mutableListOf()
-        x.responses.map {
-            var split = it.pairName.split("_")
-            var symbol1 = split.get(0)
-            var currency1 = y.currenciesMap[symbol1]
-            var symbol2 = split.get(1)
-            var currency2 = y.currenciesMap[symbol2]
-            if (currency1 != null && currency2 != null) {
-                list.add(TickerModelResponse(currency1, currency2, it))
-            }
-        }
-        TickerModelResponses(list)
-
-    }
-
     @Test
     fun tickerDataModelResponses() {
         // disposableObserver
         val testObserver = TestObserver<TickerModelResponses>()
         val a = getObservable()
-        a.subscribe(testObserver)
+        a.blockingSubscribe(testObserver)
 
         val values = testObserver.values()
         testObserver.assertNoErrors()
     }
 
-    private fun getObservable(): Observable<TickerModelResponses> {
-        return Observable.fromCallable { getTickerDataModelResponses() }
-                .withLatestFrom(getCurrencies(), composer)
+    fun getObservable(): Observable<TickerModelResponses> {
+        return Observable.interval(0L, 4L, TimeUnit.SECONDS)
+                .take(2)
+                .concatMap { it -> Observable.fromCallable { getTickerDataModelResponses() } }
+                .withLatestFrom(getCurrencies(), HomePresenter.composer)
                 .doOnNext {
                     print(it.toString())
                 }
@@ -99,7 +83,7 @@ class CurrenciesDataModelResponsesTest() {
         val item1 = TickerDataModelResponse("BTC_ETH", "0.1")
         val item2 = TickerDataModelResponse("ETH_BTC", "0.2");
 //        var list: MutableList<TickerDataModelResponse> = mutableListOf(item1, item2)
-        return TickerDataModelResponses(mutableListOf(item1, item2))
+        return TickerDataModelResponses(listOf(item1, item2))
     }
 
 
@@ -160,7 +144,7 @@ class CurrenciesDataModelResponsesTest() {
 
         val jsonAdapter = moshi.adapter(CurrenciesMap::class.java)
         val m = jsonAdapter.fromJson(input)
-        m.currenciesMap
+        m.map
 
     }
 }
