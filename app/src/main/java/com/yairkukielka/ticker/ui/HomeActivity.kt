@@ -22,6 +22,7 @@ import android.util.Log
 import butterknife.BindView
 import butterknife.ButterKnife
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 
 
@@ -32,7 +33,7 @@ class HomeActivity : AppCompatActivity() {
     @BindView(R.id.rvCurrencies) lateinit var rvCurrencies: RecyclerView
     @BindView(R.id.fab) lateinit var fab: FloatingActionButton
     @BindView(R.id.toolbar) lateinit var toolbar: Toolbar
-
+    lateinit var disposable: Disposable
     var items: MutableList<CurrencyItem> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,15 +48,12 @@ class HomeActivity : AppCompatActivity() {
         }
 
         TickerApplication.component.injectActivity(this)
-        presenter.tick()
 
         initList()
     }
 
     private fun initList() {
-//        var items: Observable<List<CurrencyItem>> = getObservable()
-
-        val adapter = CurrencyItemAdapter(items)
+        val adapter = CurrencyItemAdapter()
         rvCurrencies.adapter = adapter
         rvCurrencies.layoutManager = LinearLayoutManager(this)
 
@@ -63,17 +61,25 @@ class HomeActivity : AppCompatActivity() {
         val item2 = CurrencyItem("es", "impresionante!")
         items.add(item1)
         items.add(item2)
-        getObservable()
+        adapter.repalaceWithNewItems(items)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        val adapter = rvCurrencies.adapter as CurrencyItemAdapter
+
+        disposable = getObservable()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                        {
-                            items.clear()
-                            items.addAll(it)
-                            adapter.notifyDataSetChanged()
-                        },
+                        { adapter.repalaceWithNewItems(it) },
                         { Log.d("TAG", toString()) },
                         { Log.d("TAG", toString()) }
                 )
+    }
+
+    override fun onStop() {
+        disposable.dispose()
+        super.onStop()
     }
 
     fun getObservable(): Observable<List<CurrencyItem>> {

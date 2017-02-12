@@ -11,7 +11,15 @@ import com.yairkukielka.ticker.data.CurrencyItem
 /**
  * Created by Yair Kukielka on 2/5/17.
  */
-class CurrencyItemAdapter(val items: List<CurrencyItem>) : RecyclerView.Adapter<CurrencyItemAdapter.ViewHolder>() {
+class CurrencyItemAdapter() : RecyclerView.Adapter<CurrencyItemAdapter.ViewHolder>() {
+
+    var items: MutableList<CurrencyItem> = mutableListOf()
+
+    fun repalaceWithNewItems(newItems: List<CurrencyItem>) {
+        items.clear()
+        items.addAll(newItems)
+        notifyDataSetChanged()
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CurrencyItemAdapter.ViewHolder {
         val context = parent.getContext()
