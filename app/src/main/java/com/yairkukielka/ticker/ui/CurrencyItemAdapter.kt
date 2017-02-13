@@ -5,6 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import butterknife.BindView
+import com.robinhood.ticker.TickerUtils
+import com.robinhood.ticker.TickerView
 import com.yairkukielka.ticker.R
 import com.yairkukielka.ticker.data.CurrencyItem
 
@@ -40,7 +43,8 @@ class CurrencyItemAdapter() : RecyclerView.Adapter<CurrencyItemAdapter.ViewHolde
 
         // Set item views based on the data model
         viewHolder.currencyName.setText(item.currencyName)
-        viewHolder.currencyValue.setText(item.currencyValue)
+//        viewHolder.currencyValue.setText(item.currencyValue)
+        viewHolder.tickerView.setText(item.currencyValue)
     }
 
     override fun getItemCount(): Int {
@@ -50,11 +54,15 @@ class CurrencyItemAdapter() : RecyclerView.Adapter<CurrencyItemAdapter.ViewHolde
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var currencyName: TextView
-        var currencyValue: TextView
+//        var currencyValue: TextView
+        var tickerView: TickerView
 
         init {
             currencyName = itemView.findViewById(R.id.currency_name) as TextView
-            currencyValue = itemView.findViewById(R.id.currency_value) as TextView
+//            currencyValue = itemView.findViewById(R.id.currency_value) as TextView
+            tickerView = itemView.findViewById(R.id.tickerView) as TickerView
+            tickerView.setCharacterList(TickerUtils.getDefaultListForUSCurrency());
+
         }
     }
 

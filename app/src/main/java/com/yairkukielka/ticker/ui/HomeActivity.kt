@@ -21,6 +21,7 @@ import android.support.v7.widget.RecyclerView
 import android.util.Log
 import butterknife.BindView
 import butterknife.ButterKnife
+import com.robinhood.ticker.TickerView
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
@@ -33,6 +34,7 @@ class HomeActivity : AppCompatActivity() {
     @BindView(R.id.rvCurrencies) lateinit var rvCurrencies: RecyclerView
     @BindView(R.id.fab) lateinit var fab: FloatingActionButton
     @BindView(R.id.toolbar) lateinit var toolbar: Toolbar
+
     lateinit var disposable: Disposable
     var items: MutableList<CurrencyItem> = mutableListOf()
 
