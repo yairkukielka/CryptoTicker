@@ -39,53 +39,56 @@ class HomePresenter(val api: Api) {
         }
     }
 
-    fun tick(): Observable<List<CurrencyItem>> {//Observable<TickerModelResponses> {//
-//        Observable.range(1, 2).flatMap {
-//
-//            val tickerDataResponses = api.ticker()
-//            val curr = getCurrencies()
-//
-//            tickerDataResponses
-//        }
-
+    fun tick(): Observable<List<CurrencyItem>> {
         return Observable.interval(0L, 3L, TimeUnit.SECONDS)
                 .take(14)
                 .concatMap { it -> api.ticker() }
                 .withLatestFrom(getCurrencies(), composer)
-                .map { it -> it.list.map { CurrencyItem(it.currency2.name, it.last) } } // fix. Translate to List<CurrencyItem> properly
+                .map { it -> it.list.map { CurrencyItem(it.currency2.name, it.last) } }
                 .subscribeOn(Schedulers.io())
-                .doOnNext {
-//                    Log.d("last ", it.responses.BTC_ETH.last)
-                }
+                .doOnNext {}
                 .doOnError {
                     Log.d("TAG", it.message)
                 }
-                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(
-//                        { Log.d("TAG", toString()) },
-//                        { Log.d("TAG", toString()) })
+                .scan(compareWithPreviousList)
     }
 
+    val compareWithPreviousList: BiFunction<List<CurrencyItem>, List<CurrencyItem>, List<CurrencyItem>> =
+            BiFunction { x: List<CurrencyItem>, y: List<CurrencyItem> -> compareWithPrevious(x, y) }
 
-//    fun getCurrencies(): BehaviorSubject<CurrenciesMap> {
-//        val map: CurrenciesMap = CurrenciesMap(mapOf(Pair("BTC", CurrencyInfo("BTC", "Bitcoin")), Pair("ETH", CurrencyInfo("ETH", "Ethereum"))))
-//        return BehaviorSubject.createDefault(map)
-//    }
+    fun compareWithPrevious(x: List<CurrencyItem>, y: List<CurrencyItem>): List<CurrencyItem> {
+        if (x.size != y.size) {
+            return y
+        } else {
+            for (i in 0 until x.size-1) {
+                if (x[i].currencyName.equals(y[i].currencyName)) {
+                    val xInt = x[i].currencyValue.toFloat()
+                    val yInt = y[i].currencyValue.toFloat()
+
+                    if (xInt < yInt) {
+                        y[i].CHANGEDSTATE = CHANGED_STATE.INCREASE
+                    } else if (xInt > yInt) {
+                        y[i].CHANGEDSTATE = CHANGED_STATE.DECREASE
+                    } else {
+                        y[i].CHANGEDSTATE = CHANGED_STATE.NOT_CHANGED // not necessary
+                    }
+                }
+            }
+            return y//mutableListOf<CurrencyItem>()
+        }
+    }
 
     fun getCurrencies(): Observable<CurrenciesMap> {
         return api.currencies()
                 .subscribeOn(Schedulers.io())
                 .doOnNext {
-//                    Log.d("last ", it.currenciesMap.toString())
+                    //                    Log.d("last ", it.map.toString())
                 }
                 .doOnError {
-//                    Log.d("TAG", it.message)
+                    //                    Log.d("TAG", it.message)
                 }
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(
-//                        { Log.d("TAG", it.toString()) },
-//                        { Log.d("TAG", it.message) })
     }
 
 
 }
+

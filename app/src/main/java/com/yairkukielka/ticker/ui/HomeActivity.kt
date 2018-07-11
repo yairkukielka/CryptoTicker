@@ -56,6 +56,7 @@ class HomeActivity : AppCompatActivity() {
 
     private fun initList() {
         val adapter = CurrencyItemAdapter()
+//        rvCurrencies.setHasFixedSize(true)
         rvCurrencies.adapter = adapter
         rvCurrencies.layoutManager = LinearLayoutManager(this)
 
