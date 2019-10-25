@@ -1,26 +1,5 @@
 package com.yairkukielka.ticker
 
-import android.util.Log
-import com.yairkukielka.ticker.data.TickerDataModelResponse
-import com.yairkukielka.ticker.data.TickerDataModelResponses
-import com.yairkukielka.ticker.data.TickerModelResponse
-import com.yairkukielka.ticker.data.TickerModelResponses
-import io.reactivex.Completable
-import io.reactivex.Flowable
-import io.reactivex.Observable
-import io.reactivex.Observer
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
-import io.reactivex.functions.Function
-import io.reactivex.observers.TestObserver
-import io.reactivex.plugins.RxJavaPlugins
-import io.reactivex.schedulers.Schedulers
-import io.reactivex.schedulers.TestScheduler
-import io.reactivex.subscribers.TestSubscriber
-import org.junit.Test
-import java.util.*
-import java.util.concurrent.TimeUnit
-
 /**
  * Created by Yair Kukielka on 9/6/16.
  */

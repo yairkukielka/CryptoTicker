@@ -6,12 +6,11 @@ import com.yairkukielka.ticker.data.*
 import com.yairkukielka.ticker.domain.CurrencyInfo
 import com.yairkukielka.ticker.domain.HomePresenter
 import io.reactivex.Observable
-import io.reactivex.functions.BiFunction
 import io.reactivex.observers.TestObserver
 import io.reactivex.subjects.BehaviorSubject
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
-import org.junit.Test
+import org.junit.jupiter.api.Test
 import java.util.concurrent.TimeUnit
 
 /**
