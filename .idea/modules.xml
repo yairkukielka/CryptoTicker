@@ -3,7 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/CryptoTicker.iml" filepath="$PROJECT_DIR$/CryptoTicker.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/CryptoTicker-app.iml" filepath="$PROJECT_DIR$/app/CryptoTicker-app.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/p-CryptoTicker.iml" filepath="$PROJECT_DIR$/p-CryptoTicker.iml" />
     </modules>
   </component>
 </project>
