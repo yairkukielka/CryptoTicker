@@ -4,10 +4,8 @@ import android.util.Log
 import com.yairkukielka.ticker.api.Api
 import com.yairkukielka.ticker.data.*
 import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.functions.BiFunction
 import io.reactivex.schedulers.Schedulers
-import io.reactivex.subjects.BehaviorSubject
 import java.util.concurrent.TimeUnit
 
 class HomePresenter(val api: Api) {
@@ -41,7 +39,7 @@ class HomePresenter(val api: Api) {
 
     fun tick(): Observable<List<CurrencyItem>> {
         return Observable.interval(0L, 3L, TimeUnit.SECONDS)
-                .take(14)
+                .take(20)
                 .concatMap { it -> api.ticker() }
                 .withLatestFrom(getCurrencies(), composer)
                 .map { it -> it.list.map { CurrencyItem(it.currency2.name, it.last) } }
