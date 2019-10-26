@@ -10,6 +10,7 @@ import io.reactivex.observers.TestObserver
 import io.reactivex.subjects.BehaviorSubject
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import java.util.concurrent.TimeUnit
 
@@ -47,7 +48,11 @@ class CurrenciesDataModelResponsesTest() {
 
 
     @Test
+    @DisplayName("Given a TickerModelResponses observable, it generates no errors")
     fun tickerDataModelResponses() {
+        //getObservable().test().assertNoErrors()
+
+
         // disposableObserver
         val testObserver = TestObserver<TickerModelResponses>()
         val a = getObservable()
@@ -63,48 +68,26 @@ class CurrenciesDataModelResponsesTest() {
                 .concatMap { it -> Observable.fromCallable { getTickerDataModelResponses() } }
                 .withLatestFrom(getCurrencies(), HomePresenter.composer)
                 .doOnNext {
-                    print(it.toString())
+                    println(it.toString())
                 }
                 .doOnError {
-                    print(it.message)
+                    println(it.message)
                 }
                 .doOnComplete {
-                    print(" Completed")
+                    println(" Completed")
                 }
     }
 
     fun getCurrencies(): BehaviorSubject<CurrenciesMap> {
-        val map: CurrenciesMap = CurrenciesMap(mapOf(Pair("BTC", CurrencyInfo("BTC", "Bitcoin")), Pair("ETH", CurrencyInfo("ETH", "Ethereum"))))
+        val map: CurrenciesMap = CurrenciesMap(mapOf(Pair("BTC", CurrencyInfo("BTC", "Bitcoin")), Pair("ETH", CurrencyInfo("ETH", "Ethereum")), Pair("USDT", CurrencyInfo("USDT", "USD Token"))))
         return BehaviorSubject.createDefault(map)
     }
 
     fun getTickerDataModelResponses(): TickerDataModelResponses {
-        val item1 = TickerDataModelResponse("BTC_ETH", "0.1")
-        val item2 = TickerDataModelResponse("ETH_BTC", "0.2");
-//        var list: MutableList<TickerDataModelResponse> = mutableListOf(item1, item2)
+        val item1 = TickerDataModelResponse("USDT_BTC", "0.1")
+        val item2 = TickerDataModelResponse("USDT_ETH", "0.2")
         return TickerDataModelResponses(listOf(item1, item2))
     }
-
-
-//    @Test
-//    fun testTickerModelResponse() {
-//        val testObserver = TestObserver<TickerModelResponses>()
-//        val a = Observable.fromCallable { getCurrenciesList() }
-//                .map { mapperModelResponses(it) }
-//                .doOnNext {
-//                    print(it.toString())
-//                }
-//                .doOnError {
-//                    print(it.message)
-//                }
-//                .doOnComplete {
-//                    print("Completed")
-//                }
-//                .subscribe(testObserver)
-//
-//        val values = testObserver.values()
-//        testObserver.assertNoErrors()
-//    }
 
 
     fun getCurrenciesList(): CurrenciesDataModelResponses {

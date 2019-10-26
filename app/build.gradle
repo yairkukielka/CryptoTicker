@@ -75,8 +75,8 @@ dependencies {
     compileOnly 'javax.annotation:jsr250-api:1.0'
 
     // charts
-//    implementation 'com.github.PhilJay:MPAndroidChart-Realm:v1.1.0@aar'
-//    implementation 'com.github.PhilJay:MPAndroidChart:v3.0.0-beta1'
+//    implementation 'com.github.PhilJay:MPAndroidChart-Realm:v3.0.30@aar'
+//    implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
 
     // Tests
     testImplementation 'org.mockito:mockito-core:2.5.5'
