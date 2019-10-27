@@ -49,7 +49,6 @@ class HomeActivity : AppCompatActivity() {
 
     private fun initList() {
         val adapter = CurrencyItemAdapter()
-//        rvCurrencies.setHasFixedSize(true)
         rvCurrencies.adapter = adapter
         rvCurrencies.layoutManager = LinearLayoutManager(this)
 
@@ -57,7 +56,7 @@ class HomeActivity : AppCompatActivity() {
         val item2 = CurrencyItem("the", "CryptoTicker!")
         items.add(item1)
         items.add(item2)
-        adapter.repalaceWithNewItems(items)
+        adapter.replaceWithNewItems(items)
     }
 
     override fun onStart() {
@@ -67,7 +66,7 @@ class HomeActivity : AppCompatActivity() {
         disposable = getObservable()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                        { adapter.repalaceWithNewItems(it) },
+                        { adapter.replaceWithNewItems(it) },
                         { Log.d("TAG", toString()) },
                         { Log.d("TAG", toString()) }
                 )

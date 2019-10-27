@@ -40,7 +40,7 @@ class HomePresenter(val api: Api) {
     fun tick(): Observable<List<CurrencyItem>> {
         return Observable.interval(0L, 3L, TimeUnit.SECONDS)
                 .take(20)
-                .concatMap { it -> api.ticker() }
+                .concatMap { api.ticker() }
                 .withLatestFrom(getCurrencies(), composer)
                 .map { it -> it.list.map { CurrencyItem(it.currency2.name, it.last) } }
                 .subscribeOn(Schedulers.io())
@@ -52,23 +52,23 @@ class HomePresenter(val api: Api) {
     }
 
     val compareWithPreviousList: BiFunction<List<CurrencyItem>, List<CurrencyItem>, List<CurrencyItem>> =
-            BiFunction { x: List<CurrencyItem>, y: List<CurrencyItem> -> compareWithPrevious(x, y) }
+            BiFunction { x, y -> compareWithPrevious(x, y) }
 
     fun compareWithPrevious(x: List<CurrencyItem>, y: List<CurrencyItem>): List<CurrencyItem> {
         if (x.size != y.size) {
             return y
         } else {
-            for (i in 0 until x.size-1) {
+            for (i in x.indices) {
                 if (x[i].currencyName.equals(y[i].currencyName)) {
                     val xInt = x[i].currencyValue.toFloat()
                     val yInt = y[i].currencyValue.toFloat()
 
                     if (xInt < yInt) {
-                        y[i].CHANGEDSTATE = CHANGED_STATE.INCREASE
+                        y[i].state = STATE.INCREASED
                     } else if (xInt > yInt) {
-                        y[i].CHANGEDSTATE = CHANGED_STATE.DECREASE
+                        y[i].state = STATE.DECREASED
                     } else {
-                        y[i].CHANGEDSTATE = CHANGED_STATE.NOT_CHANGED // not necessary
+                        y[i].state = STATE.NOT_CHANGED
                     }
                 }
             }

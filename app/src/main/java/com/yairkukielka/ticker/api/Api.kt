@@ -1,7 +1,5 @@
 package com.yairkukielka.ticker.api
 
-import com.jakewharton.retrofit2.adapter.rxjava2.Result
-import com.yairkukielka.ticker.data.CurrenciesDataModelResponses
 import com.yairkukielka.ticker.data.CurrenciesMap
 import com.yairkukielka.ticker.data.TickerDataModelResponses
 import io.reactivex.Observable

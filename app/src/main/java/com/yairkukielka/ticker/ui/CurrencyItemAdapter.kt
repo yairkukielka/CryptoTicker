@@ -7,13 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import butterknife.BindView
+import butterknife.ButterKnife
 import com.robinhood.ticker.TickerUtils
 import com.robinhood.ticker.TickerView
 import com.yairkukielka.ticker.R
 import com.yairkukielka.ticker.data.CurrencyItem
-import com.yairkukielka.ticker.domain.CHANGED_STATE
-import butterknife.ButterKnife
-
+import com.yairkukielka.ticker.domain.STATE
 
 
 /**
@@ -23,16 +22,14 @@ class CurrencyItemAdapter() : RecyclerView.Adapter<CurrencyItemAdapter.ViewHolde
 
     var items: MutableList<CurrencyItem> = mutableListOf()
 
-    fun repalaceWithNewItems(newItems: List<CurrencyItem>) {
+    fun replaceWithNewItems(newItems: List<CurrencyItem>) {
         if (newItems.size > 5 && newItems.size == items.size) {
-            for (i in 0..newItems.size - 1) {
-//                if (i < items.size) {
-                    val newItem = newItems[i]
-                    if (newItem.CHANGEDSTATE != CHANGED_STATE.NOT_CHANGED) {
-                        items[i] = newItem
-                        notifyItemChanged(i)
-                    }
-//                }
+            for (i in newItems.indices) {
+                val newItem = newItems[i]
+                if (newItem.state != STATE.NOT_CHANGED) {
+                    items[i] = newItem
+                    notifyItemChanged(i)
+                }
             }
         } else {
             items.clear()
@@ -66,15 +63,15 @@ class CurrencyItemAdapter() : RecyclerView.Adapter<CurrencyItemAdapter.ViewHolde
 //        viewHolder.currencyValue.setText(item.currencyValue)
         viewHolder.tickerView.setText(item.currencyValue)
 //            viewHolder.lastValue = item.currencyValue
-        checkColor(item.CHANGEDSTATE, viewHolder.currencyName, viewHolder.tickerView)
+        checkColor(item.state, viewHolder.currencyName, viewHolder.tickerView)
 //        }
     }
 
-    private fun checkColor(CHANGEDSTATE: CHANGED_STATE, itemName: TextView, itemValue: TickerView) {
+    private fun checkColor(CHANGEDSTATE: STATE, itemName: TextView, itemValue: TickerView) {
         var color: Int
-        if (CHANGEDSTATE.equals(CHANGED_STATE.INCREASE)) {
+        if (CHANGEDSTATE.equals(STATE.INCREASED)) {
             color = Color.GREEN
-        } else if (CHANGEDSTATE.equals(CHANGED_STATE.DECREASE)) {
+        } else if (CHANGEDSTATE.equals(STATE.DECREASED)) {
             color = Color.RED
         } else {
             color = Color.BLACK

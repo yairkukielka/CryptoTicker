@@ -1,8 +1,8 @@
 package com.yairkukielka.ticker.data
 
 
-import com.yairkukielka.ticker.domain.CHANGED_STATE
+import com.yairkukielka.ticker.domain.STATE
 
 data class CurrencyItem(val currencyName: String, val currencyValue: String) {
-    var CHANGEDSTATE: CHANGED_STATE = CHANGED_STATE.UNKOWN
+    var state: STATE = STATE.NOT_CHANGED
 }
