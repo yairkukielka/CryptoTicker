@@ -20,7 +20,7 @@ import java.util.concurrent.ThreadPoolExecutor
 import java.util.concurrent.TimeUnit
 
 class ThreadExecutor : Executor {
-    val threadPoolExecutor: ThreadPoolExecutor
+    private val threadPoolExecutor: ThreadPoolExecutor
 
     init {
         val corePoolSize = CORE_POOL_SIZE
@@ -31,15 +31,13 @@ class ThreadExecutor : Executor {
     }
 
     override fun run(runnable: Runnable?) {
-        if (runnable == null) {
-            throw IllegalArgumentException("runnable to execute can't be null")
-        }
+        requireNotNull(runnable) { "runnable to execute can't be null" }
         threadPoolExecutor.submit(runnable)
     }
 
     companion object {
-        private val CORE_POOL_SIZE = 3
-        private val MAX_POOL_SIZE = 5
-        private val KEEP_ALIVE_TIME = 120
+        private const val CORE_POOL_SIZE = 8
+        private const val MAX_POOL_SIZE = 16
+        private const val KEEP_ALIVE_TIME = 120
     }
 }
