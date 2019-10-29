@@ -18,13 +18,13 @@ class HomePresenter(val api: Api) {
             tickerDataModelResponses.responses
                     .map {
                         var result: TickerModelResponse? = null
-                        var split = it.pairName.split("_")
-                        var symbol1 = split.get(0)
+                        val split = it.pairName.split("_")
+                        val symbol1 = split.get(0)
                         if (symbol1.equals("USDT")) {
                             // only use usdt because we're interested only in comparing with US dollar
-                            var currency1 = currenciesMap.map[symbol1]
-                            var symbol2 = split.get(1)
-                            var currency2 = currenciesMap.map[symbol2]
+                            val currency1 = currenciesMap.map[symbol1]
+                            val symbol2 = split.get(1)
+                            val currency2 = currenciesMap.map[symbol2]
                             if (currency1 != null && currency2 != null) {
                                 result = TickerModelResponse(currency1, currency2, it.last)
                             }
@@ -42,24 +42,28 @@ class HomePresenter(val api: Api) {
                 .take(20)
                 .concatMap { api.ticker() }
                 .withLatestFrom(getCurrencies(), composer)
-                .map { it -> it.list.map { CurrencyItem(it.currency2.name, it.last) } }
+                .map { currencies -> currencies.list.map { CurrencyItem(it.currency2.name, it.last) } }
                 .subscribeOn(Schedulers.io())
                 .doOnNext {}
                 .doOnError {
-                    Log.d("TAG", it.message)
+                    Log.d("TAG", it.message ?: "")
                 }
-                .scan(compareWithPreviousList)
+                .scan { x, y -> compareWithPrevious(x, y) }
     }
 
-    val compareWithPreviousList: BiFunction<List<CurrencyItem>, List<CurrencyItem>, List<CurrencyItem>> =
-            BiFunction { x, y -> compareWithPrevious(x, y) }
+//    val compareWithPreviousList: BiFunction<List<CurrencyItem>, List<CurrencyItem>, List<CurrencyItem>> =
+//            BiFunction { x, y -> compareWithPrevious(x, y) }
 
+    /**
+     * Gives every CurrencyItem a state that will help determine if it was changed in the last call.
+     * This state will help when giving colors to values in the UI
+     */
     fun compareWithPrevious(x: List<CurrencyItem>, y: List<CurrencyItem>): List<CurrencyItem> {
         if (x.size != y.size) {
             return y
         } else {
             for (i in x.indices) {
-                if (x[i].currencyName.equals(y[i].currencyName)) {
+                if (x[i].currencyName == y[i].currencyName) {
                     val xInt = x[i].currencyValue.toFloat()
                     val yInt = y[i].currencyValue.toFloat()
 
@@ -72,10 +76,14 @@ class HomePresenter(val api: Api) {
                     }
                 }
             }
-            return y//mutableListOf<CurrencyItem>()
+            return y
         }
     }
 
+    /**
+     * Makes the call to get the currencies list
+     * @return Observable of CurrenciesMap. Every call will only return 1 CurrenciesMap item
+     */
     fun getCurrencies(): Observable<CurrenciesMap> {
         return api.currencies()
                 .subscribeOn(Schedulers.io())
