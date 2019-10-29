@@ -3,12 +3,11 @@ package com.yairkukielka.ticker.di
 import android.app.Application
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import com.squareup.moshi.Moshi
-import com.yairkukielka.ticker.adapter.TickerDataModelResponsesAdapter
 import com.yairkukielka.ticker.adapter.CurrencyMapJsonAdapter
+import com.yairkukielka.ticker.adapter.TickerDataModelResponsesAdapter
 import com.yairkukielka.ticker.api.Api
 import com.yairkukielka.ticker.api.TickerService
 import com.yairkukielka.ticker.domain.HomePresenter
-import com.yairkukielka.ticker.domain.Prices
 import com.yairkukielka.ticker.executor.Executor
 import com.yairkukielka.ticker.executor.MainThread
 import com.yairkukielka.ticker.executor.MainThreadImpl
@@ -36,8 +35,7 @@ class ApplicationModule(private val application: Application) {
     @Singleton
     internal fun httpClient(): OkHttpClient {
         val interceptor = HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
-        val client = OkHttpClient.Builder().addInterceptor(interceptor).build()
-        return client
+        return OkHttpClient.Builder().addInterceptor(interceptor).build()
     }
 
     @Provides
@@ -76,13 +74,12 @@ class ApplicationModule(private val application: Application) {
     @Provides
     @Singleton
     internal fun provideRetrofit(client: OkHttpClient, moshi: Moshi): Retrofit {
-        val retrofit = Retrofit.Builder()
+        return Retrofit.Builder()
                 .baseUrl(Api.BASE_URL)
                 .client(client)
                 .addConverterFactory(MoshiConverterFactory.create(moshi))
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build()
-        return retrofit
     }
 
 
@@ -96,12 +93,6 @@ class ApplicationModule(private val application: Application) {
     @Singleton
     internal fun provideHomePresenter(api: Api): HomePresenter {
         return HomePresenter(api)
-    }
-
-    @Provides
-    @Singleton
-    internal fun providePrices(api: Api): Prices {
-        return Prices(api)
     }
 }
 

@@ -12,15 +12,15 @@ import com.robinhood.ticker.TickerUtils
 import com.robinhood.ticker.TickerView
 import com.yairkukielka.ticker.R
 import com.yairkukielka.ticker.data.CurrencyItem
-import com.yairkukielka.ticker.domain.STATE
+import com.yairkukielka.ticker.data.STATE
 
 
 /**
  * Created by Yair Kukielka on 2/5/17.
  */
-class CurrencyItemAdapter() : RecyclerView.Adapter<CurrencyItemAdapter.ViewHolder>() {
+class CurrencyItemAdapter : RecyclerView.Adapter<CurrencyItemAdapter.ViewHolder>() {
 
-    var items: MutableList<CurrencyItem> = mutableListOf()
+    private var items: MutableList<CurrencyItem> = mutableListOf()
 
     fun replaceWithNewItems(newItems: List<CurrencyItem>) {
         if (newItems.size > 5 && newItems.size == items.size) {
@@ -38,7 +38,7 @@ class CurrencyItemAdapter() : RecyclerView.Adapter<CurrencyItemAdapter.ViewHolde
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CurrencyItemAdapter.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val context = parent.getContext()
         val inflater = LayoutInflater.from(context)
 
@@ -46,11 +46,10 @@ class CurrencyItemAdapter() : RecyclerView.Adapter<CurrencyItemAdapter.ViewHolde
         val contactView = inflater.inflate(R.layout.currency_item, parent, false)
 
         // Return a new holder instance
-        val viewHolder = ViewHolder(contactView)
-        return viewHolder
+        return ViewHolder(contactView)
     }
 
-    override fun onBindViewHolder(viewHolder: CurrencyItemAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
 
         // Get the data model based on position
         val item = items.get(position)
@@ -63,23 +62,16 @@ class CurrencyItemAdapter() : RecyclerView.Adapter<CurrencyItemAdapter.ViewHolde
 //        viewHolder.currencyValue.setText(item.currencyValue)
         viewHolder.tickerView.setText(item.currencyValue)
 //            viewHolder.lastValue = item.currencyValue
-        checkColor(item.state, viewHolder.currencyName, viewHolder.tickerView)
+        checkColor(item.state, viewHolder.tickerView)
 //        }
     }
 
-    private fun checkColor(CHANGEDSTATE: STATE, itemName: TextView, itemValue: TickerView) {
-        var color: Int
-        if (CHANGEDSTATE.equals(STATE.INCREASED)) {
-            color = Color.GREEN
-        } else if (CHANGEDSTATE.equals(STATE.DECREASED)) {
-            color = Color.RED
-        } else {
-            color = Color.BLACK
+    private fun checkColor(state: STATE, itemValue: TickerView) {
+        val color: Int = when (state) {
+            STATE.INCREASED -> Color.parseColor("#009900") // Dark green
+            STATE.DECREASED -> Color.RED
+            else -> Color.BLACK
         }
-
-//        if (color != Color.BLACK) {
-        itemName.setTextColor(color)
-//        }
         itemValue.textColor = color
 
     }
@@ -90,17 +82,14 @@ class CurrencyItemAdapter() : RecyclerView.Adapter<CurrencyItemAdapter.ViewHolde
 
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-//        var currencyName: TextView
-//        var tickerView: TickerView
-        @BindView(R.id.currency_name) lateinit var currencyName: TextView
-        @BindView(R.id.tickerView) lateinit var tickerView: TickerView
+        @BindView(R.id.currency_name)
+        lateinit var currencyName: TextView
+        @BindView(R.id.tickerView)
+        lateinit var tickerView: TickerView
 
         init {
             ButterKnife.bind(this, itemView)
-//            currencyName = itemView.findViewById(R.id.currency_name) as TextView
-//            tickerView = itemView.findViewById(R.id.tickerView) as TickerView
-            tickerView.setCharacterList(TickerUtils.getDefaultListForUSCurrency());
-//
+            tickerView.setCharacterList(TickerUtils.getDefaultListForUSCurrency())
         }
 
     }

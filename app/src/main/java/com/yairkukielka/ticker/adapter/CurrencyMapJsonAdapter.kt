@@ -29,7 +29,7 @@ class CurrencyMapJsonAdapter {
         } catch(e: Exception) {
             Log.e("CurrencyMapJsonAdapter", e.toString())
         } finally {
-            jsonReader.close();
+            jsonReader.close()
         }
 
         return CurrenciesMap(currenciesMap)
@@ -41,7 +41,7 @@ class CurrencyMapJsonAdapter {
         var disabled = 0
         var delisted = 0
         var frozen = 0
-        var name: String = ""
+        var name = ""
         while (jsonReader.hasNext()) {
             val n = jsonReader.nextName()
             when (n) {
@@ -54,8 +54,8 @@ class CurrencyMapJsonAdapter {
                 }
             }
         }
-        if (disabled == 0 && delisted == 0 && frozen == 0) {
-            currenciesMap.put(symbol, CurrencyInfo(symbol, name))
+        if (name.isNotEmpty() && disabled == 0 && delisted == 0 && frozen == 0) {
+            currenciesMap[symbol] = CurrencyInfo(symbol, name)
         }
         jsonReader.endObject()
     }

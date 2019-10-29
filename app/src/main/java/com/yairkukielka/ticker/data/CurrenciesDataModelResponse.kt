@@ -1,5 +1,5 @@
 package com.yairkukielka.ticker.data
 
 
-class CurrenciesDataModelResponse(val id: String, val name: String) {
+data class CurrenciesDataModelResponse(val id: String, val name: String) {
 }

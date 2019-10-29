@@ -1,6 +1,4 @@
-package com.yairkukielka.ticker.data
-
-import com.yairkukielka.ticker.domain.CurrencyInfo
+package com.yairkukielka.ticker.domain
 
 
 data class TickerModelResponse(val currency1: CurrencyInfo, val currency2: CurrencyInfo, val last: String) {
@@ -15,7 +13,7 @@ data class TickerModelResponse(val currency1: CurrencyInfo, val currency2: Curre
 //    val low24hr: String
 //    val currencyName = "undefined"
 
-    init {
+//    init {
 //        id = data.id
 //        last = data.last
 //        lowestAsk = data.lowestAsk
@@ -25,7 +23,7 @@ data class TickerModelResponse(val currency1: CurrencyInfo, val currency2: Curre
 //        quoteVolume = data.quoteVolume
 //        high24hr = data.high24hr
 //        low24hr = data.low24hr
-    }
+//    }
 
 }
 

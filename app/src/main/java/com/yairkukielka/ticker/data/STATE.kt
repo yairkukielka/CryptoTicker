@@ -1,4 +1,4 @@
-package com.yairkukielka.ticker.domain
+package com.yairkukielka.ticker.data
 
 /**
  * Created by Yair Kukielka on 2/12/17.
