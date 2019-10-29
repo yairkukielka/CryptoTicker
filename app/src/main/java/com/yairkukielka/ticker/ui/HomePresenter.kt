@@ -20,7 +20,7 @@ class HomePresenter(val api: Api) {
                         var result: TickerModelResponse? = null
                         val split = it.pairName.split("_")
                         val symbol1 = split.get(0)
-                        if (symbol1.equals("USDT")) {
+                        if (symbol1 == "USDT") {
                             // only use usdt because we're interested only in comparing with US dollar
                             val currency1 = currenciesMap.map[symbol1]
                             val symbol2 = split.get(1)
